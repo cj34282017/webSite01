@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html lang="zh-Hant-TW">
 <head>
-    <title>Learning AJAX2!</title>
+    <title>驗證表單</title>
 
     <meta charset="utf-8" />
     <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
@@ -10,28 +10,158 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
-    <style>
-  
+    <style>  
+    
+      #container{
+            padding-top: 50px;
+            width: 600px;
+            margin: auto;
+            
+            font-family: 'Times New Roman', Times, serif,"Arial";
 
+        }
+        body{
+            background-color: #F6FAA6
+  
+        }
+
+        .input-width{
+            width: 300px;
+            height: 40px;
+
+            
+        }
+
+        label{
+            width: 200px;
+            float: left;
+            font-size: 1.2em;
+
+            padding-top: 8px;
+        }
+
+        .input-style{
+            border-radius: 5px;
+            border: 1px solid #555;
+            font-size: 1.1em;
+
+            padding-left: 20px;
+            margin-bottom: 5px;
+        }
+
+    
+
+        #mail-gender{
+            width: 322px;
+            height: 40px;
+        }
+
+        #mail-message{
+            width: 500px;
+            padding-top: 10px;
+            margin-top: 5px;
+        }
+
+        #submitBtn{
+            background-color: aqua;
+            width: 524px;
+            height: 50px;
+        }
+
+        #error{
+            color: red;
+        }
+
+        #submitBtn:hover{
+            background-color: blue;
+        }
+        
     </style>
 
 </head>
 
 <body>
 
-    
+    <div id="container">
+        
+        <form id="validationForm">
+            <label for="mail-name">姓 名</label>
+            <input class="input-style input-width" id="mail-name" type="text" name="name" placeholder="請輸入姓名">
+            
+            <label for="mail-address">電子郵件</label>
+            <input class="input-style input-width" id="mail-address" type="text" name="email" placeholder="請輸入電子郵件">
+        
+            <label for="mail-gender">性 別</label>
+            <select class="input-style" name="gender" id="mail-gender">
+                <option value="male">男 性</option>
+                <option value="female">女 性</option>
+            </select>
+
+            <label for="pass1">密 碼</label>
+            <input class="input-style input-width" id="pass1" type="password" name="password1" placeholder="請輸入密碼">
+
+            <label for="pass2">確認密碼</label>
+            <input class="input-style input-width" id="pass2" type="password" name="password2" placeholder="請再次輸入您的密碼">
+
+            <textarea class="input-style" id="mail-message" name="message" cols="100" rows="10" placeholder="請填寫您的需求"></textarea>
+
+            <button class="input-style" id="submitBtn" type="submit" name="submit">送出表單</button>
+
+
+        </form>
+
+        <div id="error">
+
+        </div>
+
+    </div>    
 
 
 <script type="text/javascript">
 
-    // 正規表達 Regular Expression
-    var string = "Hello ajax";
-    
-    var regex = /l/g;
-    
-    var result =  string.match(regex);
+    $("#validationForm").submit(function(event){
 
-    alert(result);
+        var errorMessage="";
+
+        event.preventDefault();
+
+        var name=$("#mail-name").val();
+        var email=$("#mail-address").val();
+        var pass1=$("#pass1").val();
+        var pass2=$("#pass2").val();
+        var message = $("#mail-message").val();
+
+        function isValEmail(emailAddress){
+
+            //Email 檢驗Email之正確性 正規表達式
+            var pattern =/^\b[A-Z0-9-]+@[A-Z0-9]+\.com\b/i;
+
+            return pattern.test(emailAddress);
+        }
+
+
+        if(name =="" || email=="" || pass1=="" || pass2=="" || message=="" ){
+            errorMessage = "欄位不能為空白!!!"
+        }else if(!isValEmail(email)){
+            errorMessage ="請輸入正確的email!!!";
+        }else if(pass1 != pass2){
+            errorMessage ="您輸入的密碼與確認密碼不相同!!!";
+        }
+
+        if (errorMessage ==""){
+            $("#error").html("驗證完成，已將您的資料上傳，感謝您的使用");
+            $("#error").css("color","green");
+        }else{
+            $("#error").html(errorMessage);
+            $("#error").css("color","red");
+        }
+
+    });
+
+
+
+    
+
 </script>
 
 
